@@ -84,15 +84,28 @@
                                     </td>
                                     <td>
                                         @php
-                                            $name= $a->promo_video;
-                                            $arr=('.',$name);
-                                            $extention=$arr[1];
+                                        if($a->promo_video!=null) {
+                                            $name = $a->promo_video;
 
+                                            $arr = explode(".",$name);
+                                            $extention = $arr[1];
+                                        }
+                                        else {
+                                            $extention = "mp4";
+                                        }
+
+
+                                            //
+                                            // dd($arr[1]);
                                         @endphp
+                                        @if($a->promo_video!=null)
                                         <video width="120" height="120" controls>
-                                            <source src="{{ asset('saved_videos/'.$a->promo_video) }}" type="video/{{ $extention }}">
+                                            <source src="{{ asset('saved_videos/'.$a->promo_video) }}" type="video/{{$extention}}">
                                             Your browser does not support the video tag.
                                         </video>
+                                        @else
+                                        Video Not Available
+                                        @endif
                                         {{-- <video src="{{ asset('saved_videoes/'.$a->promo_video) }}" width="100px" height="100px" type="video/mp4" alt="videonotavailable"></video> --}}
                                     </td>
                                     <td>
