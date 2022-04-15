@@ -83,7 +83,7 @@
                                         <img src="{{ asset('saved_images/'.$a->profile_picture) }}" width="120px" height="120px" alt="imagenotfound">
                                     </td>
                                     <td>
-                                        @php
+                                        {{-- @php
                                         if($a->promo_video!=null) {
                                             $name = $a->promo_video;
 
@@ -105,7 +105,7 @@
                                         </video>
                                         @else
                                         Video Not Available
-                                        @endif
+                                        @endif --}}
                                         {{-- <video src="{{ asset('saved_videoes/'.$a->promo_video) }}" width="100px" height="100px" type="video/mp4" alt="videonotavailable"></video> --}}
                                     </td>
                                     <td>
