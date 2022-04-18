@@ -4,8 +4,11 @@ namespace App\Http\Controllers\Auth;
 
 use App\Models\User;
 use App\Http\Controllers\Controller;
+use App\Models\Artist;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\Client\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 class RegisterController extends Controller
@@ -50,7 +53,7 @@ class RegisterController extends Controller
     {
         return Validator::make($data, [
             'name' => 'required|string|max:255',
-            'username' => 'required|string|max:20|unique:users',
+            // 'username' => 'required|string|max:20|unique:users',
             'phone' => 'required|string|max:20|unique:users',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
@@ -89,12 +92,14 @@ class RegisterController extends Controller
         return User::create([
             'name' => $data['name'],
             'gender' => $data['gender'],
-            'username' => $data['username'],
+            // 'username' => $data['slug'],
             'phone' => $data['phone'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
-            'slug' => Str::slug($data['username']),
+            // 'slug' => Str::slug($data['slug']),
             'avatar' => $avatar,
         ]);
     }
+
+
 }

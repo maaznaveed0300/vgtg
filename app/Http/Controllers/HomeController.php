@@ -6,7 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Artist;
 use App\Models\Expertise;
 use App\Models\Permission;
-
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class HomeController extends Controller
 {
@@ -29,6 +30,7 @@ class HomeController extends Controller
     // {
     //     return view('dashboard');
     // }
+
 
     public function index()
     {

@@ -9,4 +9,8 @@ class Expertise extends Model
 {
     use HasFactory;
     protected $table ='expertises';
+    public function artist_expertise()
+    {
+        return $this->belongsToMany(Artist_Expertise::class);
+    }
 }

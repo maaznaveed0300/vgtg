@@ -58,12 +58,21 @@
                   </div>
                   <!-- /.card-header -->
                   <!-- form start -->
-                  <form action="{{ url('artistcreated') }}" method="POST" enctype="multipart/form-data">
+                  <form action="{{ url('artistupdated') }}" method="POST" enctype="multipart/form-data">
                     @csrf
+                    <input type="hidden" value="{{ $artist->id }}" name="id">
                     <div class="card-body">
                       <div class="form-group">
                         <label for="inputtitle">Full Name</label>
-                        <input type="text" name="name" class="form-control" id="inputtitle" placeholder="Enter Full Name">
+                        <input type="text" name="name" class="form-control" value="{{ $artist->name }}" id="inputtitle" placeholder="Enter Full Name">
+                      </div>
+                      <div class="form-group">
+                        <label for="inputstatus">Email</label>
+                        <input type="email" name="email" class="form-control" value="{{ $artist->email }}" id="inputemail" placeholder="Enter email">
+                      </div>
+                      <div class="form-group">
+                        <label for="inputstatus">Phone</label>
+                        <input type="text" name="phone" class="form-control" value="{{ $artist->phone }}" id="inputstatus" placeholder="Enter phone">
                       </div>
                       <div class="form-group">
                         <label for="summernote">Introduction</label>
@@ -75,7 +84,7 @@
                       </div>
                       <div class="form-group">
                         <label for="inputtitle">Expertise</label>
-                        <select name="expertise" id="expertise" class="form-control">
+                        <select name="expertise[]" id="expertise" class="form-control" multiple>
 
                           @foreach ($expertises as $item)
 
@@ -119,14 +128,7 @@
                           </div> --}}
                         </div>
                       </div>
-                      <div class="form-group">
-                        <label for="inputstatus">Email</label>
-                        <input type="email" name="email" class="form-control" id="inputemail" placeholder="Enter email">
-                      </div>
-                      <div class="form-group">
-                        <label for="inputstatus">Phone</label>
-                        <input type="text" name="phone" class="form-control" id="inputstatus" placeholder="Enter phone">
-                      </div>
+
                     </div>
                     <!-- /.card-body -->
 
@@ -145,47 +147,36 @@
                                 #
                             </th>
                             <th>
-                                Full Name
-                            </th>
-                            <th>
-                                Introduction
-                            </th>
-                            <th>
                                 Expertise
                             </th>
                             <th>
-                                You Were Introduced To VGTG by (Name)
-                            </th>
-                            <th>
-                                Gender
-                            </th>
-                            <th>
-                                Proile Picture
-                            </th>
-                            <th>
-                                Promo Video
-                            </th>
-
-
-                            <th>
-                                Email
-                            </th>
-
-                            <th>
-                                Phone
-                            </th>
-
-                            <th>
-                                Status
+                                Action
                             </th>
                         </tr>
                     </thead>
                     <tbody>
+                        @php
+                            $c = 0;
+                        @endphp
+                        @foreach($experties_list as $expertise)
+                        @php
+                            $c++;
+                        @endphp
+                        <tr>
+                            <td>{{ $c }}</td>
+                          <td>{{$expertise->expertise}}</td>
+                          <td><a class="btn btn-danger" href="{{ url('/delete/expertise/'. $expertise->id) }}">Delete</a></td>
+                        </tr>
+                         @endforeach
+                       {{-- @foreach ($expertise as $a)
                        <tr>
-                           <td></td>
-                           <td>{{ Auth::user()->name }}</td>
+
+                        <td>{{ $artist->expertise_id }}</td>
+                        <td> {{ $a->expertise }}</td>
+                        <td></td>
 
                        </tr>
+                       @endforeach --}}
                     </tbody>
                 </table>
             </div>

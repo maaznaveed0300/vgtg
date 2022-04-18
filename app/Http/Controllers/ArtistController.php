@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Artist;
+use App\Models\Artist_Expertise;
 use App\Models\Expertise;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class ArtistController extends Controller
 {
@@ -17,16 +20,37 @@ class ArtistController extends Controller
 
     public function create(){
         // $expertise=Expertise::where('status',1)->get();
+        // $expertise = Expertise::find($user_id)->expertise;
         $expertise=Expertise::all();
-        return view('admin.createartist',['expertises'=>$expertise]);
+        $artist_expertise=Artist_Expertise::where('user_id',Auth::user()->id)->first();
+        $artist = Artist::where('user_id',Auth::user()->id)->first();
+        $experties_list = DB::select('SELECT ae.id,e.expertise,u.name,u.email FROM `artist_expertise` ae JOIN expertises e ON ae.expertise_id=e.id JOIN users u ON ae.user_id=u.id where ae.user_id='.$artist->user_id, []);
+        // dd($experties_list);
+        return view('admin.createartist',['expertises'=>$expertise,'artist'=>$artist,'artist_expertise'=>$artist_expertise,'experties_list'=>$experties_list]);
+
+    }
+
+    public function destroy($id){
+        $expertise= Artist_Expertise::find($id);
+        $expertise->delete();
+        return redirect('createartist');
+
     }
 
     public function store(Request $req){
-        $artist = new Artist();
+
+        $artist =new Artist();
         $artist->name=$req->name;
-        $artist->expertise=$req->expertise;
+        $artist->expertise=implode(',', $req->expertise);
         $artist->introduction=$req->introduction;
         $artist->referred_by=$req->refferedby;
+
+        foreach($req->expertise as $exp) {
+            $artist_expertise = new Artist_Expertise();
+            $artist_expertise->expertise_id = $exp;
+            $artist_expertise->user_id = Auth::user()->id;
+            $artist_expertise->save();
+        }
 
         if($req->hasFile('image')){
             $file = $req->file('image');
@@ -61,9 +85,20 @@ class ArtistController extends Controller
     public function update_artist(Request $req)
     {
         $artist=Artist::find($req->id);
+        // dd($artist);
         $artist->name=$req->name;
-        $artist->expertise="singer";
+        $artist->expertise=implode(',', $req->expertise);
         $artist->introduction=$req->introduction;
+
+        $deleteexpertise = Artist::where('user_id',$req->id)->delete();
+
+        foreach($req->expertise as $exp) {
+            $artist_expertise = new Artist_Expertise();
+            $artist_expertise->expertise_id = $exp;
+            $artist_expertise->user_id = Auth::user()->id;
+            $artist_expertise->save();
+        }
+
         if($req->hasFile('image')){
             $file = $req->file('image');
             $extension = $file->getClientOriginalExtension();
@@ -84,7 +119,7 @@ class ArtistController extends Controller
         $artist->save();
 
         // $services=Artist::where('status',1)->get();
-        return View('admin.updateartist',['artists'=>$artist]);
+        return redirect('/createartist');
     }
 
     public function approve($id)

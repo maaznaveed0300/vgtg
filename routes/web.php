@@ -2,7 +2,9 @@
 
 // use Illuminate\Contracts\Session\Session;
 
+use App\Http\Controllers\ArtistController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
 use App\Models\Artist;
 use Illuminate\Contracts\Session\Session;
@@ -24,6 +26,8 @@ Route::get('/', function () {
     $artist=Artist::where('status',1)->get();
     return view('index',['artists'=>$artist]);
 });
+
+Route::post('customregister', [AuthController::class, 'register']);
 
 // Route::post('register', [RegisterController::class, 'create'])->name('register');
 Route::post('/submitted', [App\Http\Controllers\EventController::class, 'contactForm'])->name('contact');
@@ -53,7 +57,9 @@ Route::post('artistcreated', [App\Http\Controllers\ArtistController::class, 'sto
 Route::get('artist/dashboard', [App\Http\Controllers\ArtistController::class, 'index']);
 
 Route::get('updateartist/{id}', [App\Http\Controllers\ArtistController::class, 'update']);
-Route::get('artistupdated/{id}', [App\Http\Controllers\ArtistController::class, 'update_artist']);
+Route::post('artistupdated', [App\Http\Controllers\ArtistController::class, 'update_artist']);
+
+Route::get('delete/expertise/{id}',[App\Http\Controllers\ArtistController::class,'destroy']);
 
 Route::get('/approve/{id}', [App\Http\Controllers\ArtistController::class, 'approve']);
 Route::get('/reject/{id}', [App\Http\Controllers\ArtistController::class, 'reject']);
@@ -66,4 +72,5 @@ Route::get('singerModal/{id}', [App\Http\Controllers\HomeController::class, 'sin
 
 Route::get('admin/dashboard', [HomeController::class, 'adminHome'])->name('admin.dashboard')->middleware('is_admin');
 Route::post('admin/dashboard', [HomeController::class, 'store'])->name('admin.dashboard')->middleware('is_admin');
+Route::post('artist_expertise', [ArtistController::class, 'artist_expertise']);
 
