@@ -59,6 +59,7 @@ class ArtistController extends Controller
             $file->move('saved_images',$filename);
             $artist->profile_picture = $filename;
         }
+        $req->validate(['video'=>'required|mimes:mp4,ogx,oga,ogv,ogg,mkv,webm']);
         if($req->hasFile('video')){
             $file = $req->file('video');
             $extension = $file->getClientOriginalExtension();

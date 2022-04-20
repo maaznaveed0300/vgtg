@@ -82,6 +82,7 @@
                                         <img src="{{ asset('saved_images/'.$a->profile_picture) }}" width="120px" height="120px" alt="imagenotfound">
                                     </td>
                                     <td>
+                                        <iframe src="{{ asset('vgtgivid/avi.avi') }}" height="80" width="80" frameborder="0"></iframe>
                                         <video width="120" height="120" controls>
                                             <source src="{{ asset('saved_videos/'.$a->promo_video) }}" type="video/mp4">
                                             Your browser does not support the video tag.

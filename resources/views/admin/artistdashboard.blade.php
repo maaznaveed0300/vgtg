@@ -83,8 +83,6 @@
                                         <img src="{{ asset('saved_images/'.$a->profile_picture) }}" width="120px" height="120px" alt="imagenotfound">
                                     </td>
                                     <td>
-                                        <iframe src="{{ asset('saved_videos/'.$a->promo_video) }}" height="200" width="200" title="W3Schools Free Online Web Tutorials">
-                                        </iframe>
                                         @php
                                         if($a->promo_video!=null) {
                                             $name = $a->promo_video;

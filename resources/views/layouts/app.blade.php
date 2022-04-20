@@ -240,7 +240,7 @@
 														</ul>
 													</li>
                                                     <li class="">
-                                                        <a class="" href="">
+                                                        <a class="" href="{{ url('/login') }}">
 															Artist Section
 														</a>
 													</li>
